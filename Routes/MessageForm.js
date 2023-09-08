@@ -3,7 +3,12 @@ const fs = require('fs');
 const router = express.Router();
 
 router.get('/message', (req, res, next) => {
-    res.send(`
+    fs.readFile('message.txt',(err,data)=>{
+        if(err){
+            console.log('err')
+            data='No Chat Exists'
+        }
+        res.send(`${data}
         <form action="/sent-message" method="POST">
             <label for="message">Enter message</label><br />
             <input name="message">
@@ -15,6 +20,7 @@ router.get('/message', (req, res, next) => {
             document.getElementById('username').value = localStorage.getItem('username');
         </script>
     `);
+    })
 });
 
 router.post('/sent-message', (req, res, next) => {
